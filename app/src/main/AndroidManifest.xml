@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sb.syllabibuilder">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/icon"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SyllabiBuilder">
+        <activity android:name=".OnlineVideosAdapter"></activity>
+        <activity android:name=".ebooksAdapter" />
+        <activity android:name=".ReferenceAdapter" />
+        <activity android:name=".TextbookAdapter" />
+        <activity android:name=".PartBAdapter" />
+        <activity android:name=".PartAAdapter" />
+        <activity android:name=".ForgetPass" />
+        <activity android:name=".otp" />
+        <activity android:name=".Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Register" />
+        <activity android:name=".Final" />
+        <activity android:name=".Onlinevideos" />
+        <activity android:name=".ebooks" />
+        <activity android:name=".ReferenceBooks" />
+        <activity android:name=".Textbooks" />
+        <activity android:name=".part_B" />
+        <activity android:name=".part_A" />
+        <activity android:name=".CO" />
+        <activity android:name=".Lab" />
+        <activity android:name=".Theory" />
+        <activity android:name=".Saved" />
+        <activity android:name=".Create" />
+        <activity android:name=".MainActivity" />
+    </application>
+
+</manifest>
