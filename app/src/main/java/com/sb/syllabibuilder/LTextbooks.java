@@ -18,18 +18,17 @@ import com.sb.syllabibuilder.mtech.MainActivity;
 
 import java.util.ArrayList;
 
-public class Textbooks extends AppCompatActivity implements View.OnClickListener {
+public class LTextbooks extends AppCompatActivity implements View.OnClickListener {
 
     LinearLayout layoutListtextbooks;
     Button buttonAdd,next;
-    ArrayList<PartABContent> partBList = new ArrayList<>();
-    ArrayList<PartABContent> partAList= new ArrayList<>();
     ArrayList<Content> TList= new ArrayList<>();
+    ArrayList<Labuser> LVList= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_textbooks);
+        setContentView(R.layout.activity_l_textbooks);
 
         BottomNavigationView bottomNavigationView= findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.btech);
@@ -51,15 +50,13 @@ public class Textbooks extends AppCompatActivity implements View.OnClickListener
             }
         });
 
-
+        LVList = (ArrayList<Labuser>) getIntent().getExtras().getSerializable("practical");
         layoutListtextbooks = findViewById(R.id.textbook_layout_lists);
         buttonAdd = findViewById(R.id.button_addt);
         next=(Button)findViewById(R.id.textnext);
 
         buttonAdd.setOnClickListener(this);
         next.setOnClickListener(this);
-        partAList = (ArrayList<PartABContent>) getIntent().getExtras().getSerializable("partA");
-        partBList = (ArrayList<PartABContent>) getIntent().getExtras().getSerializable("partB");
 
     }
 
@@ -79,11 +76,10 @@ public class Textbooks extends AppCompatActivity implements View.OnClickListener
 
                 if(checkIfValidAndRead()){
 
-                    Intent intent = new Intent(Textbooks.this,ReferenceBooks.class);
+                    Intent intent = new Intent(LTextbooks.this,LReferenceBooks.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("partA",partAList);
-                    bundle.putSerializable("partB",partBList);
-                    bundle.putSerializable("textbooks",TList);
+                    bundle.putSerializable("ltextbooks",TList);
+                    bundle.putSerializable("practical",LVList);
                     intent.putExtras(bundle);
                     startActivity(intent);
 

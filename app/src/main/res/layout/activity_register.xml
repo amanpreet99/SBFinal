@@ -48,15 +48,7 @@
                 android:layout_height="match_parent"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/spinneroutline"
-            android:padding="15dp"
-            android:layout_marginTop="20dp"
-            android:spinnerMode="dropdown"
-            android:popupBackground="@drawable/spinneroutline2" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/pass"
             android:layout_width="match_parent"

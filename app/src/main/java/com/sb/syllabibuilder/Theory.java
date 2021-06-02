@@ -1,4 +1,4 @@
-package com.sb.syllabibuilder;
+ package com.sb.syllabibuilder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,8 +22,9 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.sb.syllabibuilder.mtech.MainActivity;
 
-public class Theory extends AppCompatActivity{
+ public class Theory extends AppCompatActivity{
       Spinner slecture,stut,selective,slab;
       TextInputLayout sname,scode,snum,spre,sadditional,scredits;
       Button snext;
@@ -60,22 +61,17 @@ public class Theory extends AppCompatActivity{
         sharedPreferences=getSharedPreferences("mypref", Context.MODE_PRIVATE);
         //BOTTOM NAVIGATION VIEW
         BottomNavigationView bottomNavigationView= findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.create);
+        bottomNavigationView.setSelectedItemId(R.id.btech);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.create:
+                    case R.id.btech:
                         return true;
 
-                    case R.id.kuch:
+                    case R.id.mtech:
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
-                    case R.id.saved:
-                        startActivity(new Intent(getApplicationContext(), Saved.class));
                         overridePendingTransition(0,0);
                         return true;
 

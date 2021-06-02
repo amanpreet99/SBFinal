@@ -9,7 +9,16 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.SyllabiBuilder">
-        <activity android:name=".OnlineVideosAdapter"></activity>
+        <activity android:name=".LFinal"></activity>
+        <activity android:name=".LTextbooks" />
+        <activity android:name=".LOnlineVideos" />
+        <activity android:name=".Lebooks" />
+        <activity android:name=".LReferenceBooks" />
+        <activity android:name=".ProjectName" />
+        <activity android:name=".LabAdapter" />
+        <activity android:name=".LabContent" />
+        <activity android:name=".LCO" />
+        <activity android:name=".OnlineVideosAdapter" />
         <activity android:name=".ebooksAdapter" />
         <activity android:name=".ReferenceAdapter" />
         <activity android:name=".TextbookAdapter" />
@@ -35,9 +44,8 @@
         <activity android:name=".CO" />
         <activity android:name=".Lab" />
         <activity android:name=".Theory" />
-        <activity android:name=".Saved" />
         <activity android:name=".Create" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".mtech.MainActivity" />
     </application>
 
 </manifest>

@@ -1,15 +1,35 @@
 package com.sb.syllabibuilder;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Html;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+
 
 public class Final extends AppCompatActivity {
     RecyclerView recyclerparta,recyclerpartb,recyclertextbook,recyclerreference,recyclerebook,recycleronlinevideo;
@@ -21,7 +41,7 @@ public class Final extends AppCompatActivity {
     ArrayList<Content> OVList= new ArrayList<>();
     TextView line2,line3,line4,line5,line6a,line6b,line7a,line7b,line8a,line8b,line9a,line9b,line10a,line10b,line11a,line11b,prerequisite,add,co1,co2,co3,co4,co5,co6;
     String department,scheme,semester,course,lecture,thpr,tutorial,subname,subcode,credit,elective,numerical,prereq,additional,c1,c2,c3,c4,c5,c6;
-
+Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +71,7 @@ public class Final extends AppCompatActivity {
         co4=(TextView)findViewById(R.id.co4);
         co5=(TextView)findViewById(R.id.co5);
         co6=(TextView)findViewById(R.id.co6);
+        btn = (Button)findViewById(R.id.pdf);
 
         SharedPreferences sharedPreferences= getSharedPreferences("mypref",MODE_PRIVATE);
         department=sharedPreferences.getString("departmentkey","");
@@ -150,6 +171,156 @@ public class Final extends AppCompatActivity {
         recycleronlinevideo.setLayoutManager(layoutManagerO);
         OVList = (ArrayList<Content>) getIntent().getExtras().getSerializable("onlinevideos");
         recycleronlinevideo.setAdapter(new OnlineVideosAdapter(OVList));
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    createpdf();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+    public void createpdf()throws FileNotFoundException {
+        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+        File file = new File(pdfPath,"s.pdf");
+        OutputStream outputStream = new FileOutputStream(file);
+        PdfWriter writer = new PdfWriter(file);
+        PdfDocument pdfDocument = new PdfDocument(writer);
+        com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
+        pdfDocument.setDefaultPageSize(PageSize.A4);
+
+        Paragraph p = new Paragraph("Department of "+department).setBold().setFontSize(14).setTextAlignment(TextAlignment.CENTER);
+        Paragraph p1 = new Paragraph("Syllabus of "+course+"("+department+") Scheme "+scheme).setBold().setFontSize(16).setTextAlignment(TextAlignment.CENTER);
+
+        Paragraph p2 = new Paragraph("Subject Code: ").setBold().setFontSize(14).setTextAlignment(TextAlignment.CENTER);
+        p2.add(subcode);
+        Paragraph p3 = new Paragraph("Subject Name: "+ subname).setBold().setFontSize(14).setTextAlignment(TextAlignment.CENTER);
+
+        float columnWidth1[] ={120,450};
+        float columnWidth2[] = {200,200,300,100};
+        Table table1 = new Table(columnWidth1);
+        Table table= new Table(columnWidth1);
+        Table table2 = new Table(columnWidth2);
+
+        table2.addCell(new Cell().add(new Paragraph("programme: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph(course + "("+department+")")));
+
+        table2.addCell(new Cell().add(new Paragraph("L: "+lecture+" T: "+tutorial+" P: 0").setBold()).setBorderRight(Border.NO_BORDER));
+        table2.addCell(new Cell().add(new Paragraph(" ").setBorderLeft(Border.NO_BORDER)).setBorderLeft(Border.NO_BORDER));
+
+        table2.addCell(new Cell().add(new Paragraph("Semester: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph(semester).setBorderLeft(Border.NO_BORDER)));
+
+        table2.addCell(new Cell().add(new Paragraph("Teaching Hours: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph("40").setBorderLeft(Border.NO_BORDER)));
+
+        table2.addCell(new Cell().add(new Paragraph("Theory/Practical: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph(thpr).setBorderLeft(Border.NO_BORDER)));
+
+        table2.addCell(new Cell().add(new Paragraph("Credits: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph(credit).setBorderLeft(Border.NO_BORDER)));
+
+        table2.addCell(new Cell().add(new Paragraph("Internal Marks: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph("40").setBorderLeft(Border.NO_BORDER)));
+
+        table2.addCell(new Cell().add(new Paragraph("Percentage of numercial/design problems: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph(numerical).setBorderLeft(Border.NO_BORDER)));
+
+
+        table2.addCell(new Cell().add(new Paragraph("External Marks: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph("60").setBorderLeft(Border.NO_BORDER)));
+
+        table2.addCell(new Cell().add(new Paragraph("Duration of end semester examination(ESE): ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph("3 hours").setBorderLeft(Border.NO_BORDER)));
+
+        table2.addCell(new Cell().add(new Paragraph("Total Marks: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph("100").setBorderLeft(Border.NO_BORDER)));
+
+        table2.addCell(new Cell().add(new Paragraph("Elective Status: ").setBold()));
+        table2.addCell(new Cell().add(new Paragraph(elective).setBorderLeft(Border.NO_BORDER)));
+
+        table.addCell(new Cell().add(new Paragraph("Prerequisites:").setBold().setBorder(Border.NO_BORDER)));
+        table.addCell(new Cell().add(new Paragraph(prereq).setBorder(Border.NO_BORDER)));
+
+        table.addCell(new Cell().add(new Paragraph("Additional Material Allowed in ESE:").setBold().setBorder(Border.NO_BORDER)));
+        table.addCell(new Cell().add(new Paragraph(additional).setBorder(Border.NO_BORDER)));
+
+
+        table1.addCell(new Cell().add(new Paragraph("CO").setBold()));
+        table1.addCell(new Cell().add(new Paragraph("COURSE OUTCOME")).setBold().setTextAlignment(TextAlignment.CENTER));
+
+        table1.addCell(new Cell().add(new Paragraph("CO1").setBold()));
+        table1.addCell(new Cell().add(new Paragraph(c1)));
+
+        table1.addCell(new Cell().add(new Paragraph("CO2").setBold()));
+        table1.addCell(new Cell().add(new Paragraph(c2)));
+
+        table1.addCell(new Cell().add(new Paragraph("CO3").setBold()));
+        table1.addCell(new Cell().add(new Paragraph(c3)));
+
+        table1.addCell(new Cell().add(new Paragraph("CO4").setBold()));
+        table1.addCell(new Cell().add(new Paragraph(c4)));
+
+        table1.addCell(new Cell().add(new Paragraph("CO5").setBold()));
+        table1.addCell(new Cell().add(new Paragraph(c5)));
+
+        table1.addCell(new Cell().add(new Paragraph("CO6").setBold()));
+        table1.addCell(new Cell().add(new Paragraph(c6)));
+        Intent intent = getIntent();
+
+
+        Paragraph p4 = new Paragraph("\nDetailed context").setBold();
+        Paragraph p5 = new Paragraph("PART-A").setBold().setTextAlignment(TextAlignment.CENTER);
+        //int i = partAList.size();
+        Paragraph p6 = new Paragraph(String.valueOf(partAList));
+        Paragraph p7 = new Paragraph("PART-B").setBold().setTextAlignment(TextAlignment.CENTER);
+        Paragraph p8 = new Paragraph(String.valueOf(partBList));
+        Paragraph p9 = new Paragraph("Textbooks").setBold();
+        Paragraph p13 = new Paragraph();
+        Paragraph p10 = new Paragraph("Reference Book").setBold();
+        Paragraph p14 = new Paragraph(String.valueOf(RBList));
+        Paragraph p11 = new Paragraph("E-books and online learning material").setBold();
+        Paragraph p15 = new Paragraph(String.valueOf(EBList));
+        Paragraph p12 = new Paragraph("Online courses and video lectures").setBold();
+//        for(Content s: OVList){
+//            Paragraph p16 = new Paragraph(String.valueOf(s));
+//            document.add(p16);
+//        }
+        Paragraph p16 = new Paragraph(String.valueOf(recyclerreference));
+
+
+        document.add(p);
+        document.add(p1);
+        document.add(p2);
+        document.add(p3);
+        document.add(table2);
+        document.add(table);
+        document.add(table1);
+        document.add(p4);
+        document.add(p5);
+        document.add(p6);
+        document.add(p7);
+        document.add(p8);
+        document.add(p9);
+        document.add(p13);
+        document.add(p10);
+        document.add(p14);
+        document.add(p11);
+        document.add(p15);
+        document.add(p12);
+        document.add(p16);
+
+        //document.add(p4);
+
+        document.close();
+        Toast.makeText(this,"PDF created",Toast.LENGTH_LONG);
+
+
 
     }
 }

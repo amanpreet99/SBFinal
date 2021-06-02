@@ -17,7 +17,7 @@
             android:orientation="vertical">
 
     <Spinner
-        android:id="@+id/ccourse"
+        android:id="@+id/cdepartment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/spinneroutline"
@@ -25,26 +25,6 @@
         android:layout_marginTop="20dp"
         android:spinnerMode="dropdown"
         android:popupBackground="@drawable/spinneroutline2" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/cdepartment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Department"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:hintTextColor="@color/blue"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeColor="#EF1E0F"
-                android:layout_marginTop="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:focusable="false"
-                    android:inputType="text"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
 
             <Spinner
                     android:id="@+id/csemester"
@@ -96,8 +76,6 @@
                 android:text="NEXT" />
         </LinearLayout>
     </ScrollView>
-
-
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

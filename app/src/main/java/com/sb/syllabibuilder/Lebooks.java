@@ -18,18 +18,19 @@ import com.sb.syllabibuilder.mtech.MainActivity;
 
 import java.util.ArrayList;
 
-public class Textbooks extends AppCompatActivity implements View.OnClickListener {
+public class Lebooks extends AppCompatActivity implements View.OnClickListener {
 
-    LinearLayout layoutListtextbooks;
+    LinearLayout layoutList;
     Button buttonAdd,next;
-    ArrayList<PartABContent> partBList = new ArrayList<>();
-    ArrayList<PartABContent> partAList= new ArrayList<>();
     ArrayList<Content> TList= new ArrayList<>();
+    ArrayList<Content> RBList= new ArrayList<>();
+    ArrayList<Content> EBList= new ArrayList<>();
+    ArrayList<Labuser> LVList= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_textbooks);
+        setContentView(R.layout.activity_lebooks);
 
         BottomNavigationView bottomNavigationView= findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.btech);
@@ -52,14 +53,16 @@ public class Textbooks extends AppCompatActivity implements View.OnClickListener
         });
 
 
-        layoutListtextbooks = findViewById(R.id.textbook_layout_lists);
+        layoutList = findViewById(R.id.layout_lists_ebooks);
         buttonAdd = findViewById(R.id.button_addt);
         next=(Button)findViewById(R.id.textnext);
 
         buttonAdd.setOnClickListener(this);
         next.setOnClickListener(this);
-        partAList = (ArrayList<PartABContent>) getIntent().getExtras().getSerializable("partA");
-        partBList = (ArrayList<PartABContent>) getIntent().getExtras().getSerializable("partB");
+
+        TList = (ArrayList<Content>) getIntent().getExtras().getSerializable("ltextbooks");
+        RBList = (ArrayList<Content>) getIntent().getExtras().getSerializable("lreference");
+        LVList = (ArrayList<Labuser>) getIntent().getExtras().getSerializable("practical");
 
     }
 
@@ -79,11 +82,12 @@ public class Textbooks extends AppCompatActivity implements View.OnClickListener
 
                 if(checkIfValidAndRead()){
 
-                    Intent intent = new Intent(Textbooks.this,ReferenceBooks.class);
+                    Intent intent = new Intent(Lebooks.this, LOnlineVideos.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("partA",partAList);
-                    bundle.putSerializable("partB",partBList);
-                    bundle.putSerializable("textbooks",TList);
+                    bundle.putSerializable("practical",LVList);
+                    bundle.putSerializable("ltextbooks",TList);
+                    bundle.putSerializable("lreference",RBList);
+                    bundle.putSerializable("lebooks",EBList);
                     intent.putExtras(bundle);
                     startActivity(intent);
 
@@ -97,14 +101,14 @@ public class Textbooks extends AppCompatActivity implements View.OnClickListener
     }
 
     private boolean checkIfValidAndRead() {
-        TList.clear();
+        EBList.clear();
         boolean result = true;
 
-        for(int i=0;i<layoutListtextbooks.getChildCount();i++){
+        for(int i=0;i<layoutList.getChildCount();i++){
 
-            View TBView = layoutListtextbooks.getChildAt(i);
+            View EBView = layoutList.getChildAt(i);
 
-            TextInputLayout t1= (TextInputLayout)TBView.findViewById(R.id.names);
+            TextInputLayout t1= (TextInputLayout)EBView.findViewById(R.id.names);
 
             Content content = new Content();
 
@@ -114,13 +118,13 @@ public class Textbooks extends AppCompatActivity implements View.OnClickListener
                 result = false;
                 break;
             }
-            TList.add(content);
+            EBList.add(content);
 
         }
 
-        if(TList.size()==0){
+        if(EBList.size()==0){
             result = false;
-            Toast.makeText(this, "Add Textbooks!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Add E-Books!", Toast.LENGTH_SHORT).show();
         }else if(!result){
             Toast.makeText(this, "Enter All Details Correctly!", Toast.LENGTH_SHORT).show();
         }
@@ -130,24 +134,24 @@ public class Textbooks extends AppCompatActivity implements View.OnClickListener
     }
 
     private void addView() {
-        final View TBView = getLayoutInflater().inflate(R.layout.activity_addsingle,null,false);
+        final View EBView = getLayoutInflater().inflate(R.layout.activity_addsingle,null,false);
 
-        TextInputLayout t1= (TextInputLayout)TBView.findViewById(R.id.names);
-        ImageView imageClose = (ImageView)TBView.findViewById(R.id.image_remove);
+        TextInputLayout t1= (TextInputLayout)EBView.findViewById(R.id.names);
+        ImageView imageClose = (ImageView)EBView.findViewById(R.id.image_remove);
         imageClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeView(TBView);
+                removeView(EBView);
             }
         });
 
-        layoutListtextbooks.addView(TBView);
+        layoutList.addView(EBView);
 
     }
 
     private void removeView(View view){
 
-        layoutListtextbooks.removeView(view);
+        layoutList.removeView(view);
 
     }
 }

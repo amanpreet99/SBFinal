@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".Textbooks">
+    tools:context=".LOnlineVideos">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,14 +17,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TEXTBOOKS"
+                android:text="ONLINE COURSES AND VIDEO LECTURES"
                 android:textSize="25dp"
                 android:textColor="@color/blue"
                 android:gravity="center"
                 android:textStyle="bold"/>
 
             <LinearLayout
-                android:id="@+id/textbook_layout_lists"
+                android:id="@+id/layout_lists_online_videos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"></LinearLayout>

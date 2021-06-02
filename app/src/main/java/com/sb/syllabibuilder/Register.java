@@ -19,14 +19,11 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-public class Register extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class Register extends AppCompatActivity{
 
-    Spinner department;
     Button signin,signup;
     TextInputLayout email,password, confirmpass;
     DBHelper db;
-    String[] dpmnt={"Select Department","Applied Science","Civil Engineering","Computer Science and Engineering","Electrical Engineering","Electronics and Communicaton Engineering","Information Technology","Mechanical Engineering","Production Engineering"};
-    String selectedDepartment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,51 +34,25 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         email= (TextInputLayout) findViewById(R.id.mail);
         password= (TextInputLayout) findViewById(R.id.pass);
         confirmpass= (TextInputLayout) findViewById(R.id.confirmpass);
-        department = (Spinner) findViewById(R.id.spinner);
         signup = (Button) findViewById(R.id.signupbutton);
         signin =(Button) findViewById(R.id.signinbutton);
         db= new DBHelper(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dpmnt){
-            public boolean isEnabled(int position){
-                if(position ==0){
-                    return false;
-                }
-                return true;
-            }
-            @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view=super.getDropDownView(position,convertView,parent);
-                TextView textView=(TextView) view;
-                if(position==0){
-                    textView.setTextColor(Color.GRAY);
-                }
-                else{
-                    textView.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        department.setAdapter(adapter);
-        department.setOnItemSelectedListener(this);
 
         signup.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 String mail= email.getEditText().getText().toString();
                 String pass= password.getEditText().getText().toString();
-                //String dep= department.
-                if(!(validatemail()|validatpass() |validateconfrmpass())){
+                if(!(validatemail()&validatpass() &validateconfrmpass())){
                     return;
                 }
                 else{
                     boolean checkmail= db.checkemail(mail);
                     if(checkmail==false){
-                        Boolean insert= db.insertData(mail,pass,selectedDepartment);
+                        Boolean insert= db.insertData(mail,pass);
                         if(insert==true){
-                            //Toast.makeText(Register.this,"Inserted",Toast.LENGTH_LONG).show();
+                            Toast.makeText(Register.this,"Welcome",Toast.LENGTH_LONG).show();
                             Intent intent= new Intent(getApplicationContext(), Create.class);
-                            intent.putExtra("value",selectedDepartment);
                             startActivity(intent);
                         }
                         else{
@@ -169,17 +140,4 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
             return true;
         }
     }
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedDepartment= dpmnt[position];
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-
-    }
-
-
 }

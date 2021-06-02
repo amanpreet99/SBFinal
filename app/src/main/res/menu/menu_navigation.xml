@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
      <item
-    android:id="@+id/kuch"
-    android:title="Home"
-    android:icon="@drawable/ic_create"/>
+    android:id="@+id/btech"
+    android:title="B.Tech."
+    android:icon="@drawable/ic_icon"/>
     <item
-        android:id="@+id/create"
-        android:title="Create"
-        android:icon="@drawable/ic_create"/>
-    <item
-        android:id="@+id/saved"
-        android:title="Saved"
-        android:icon="@drawable/ic_saved"/>
+        android:id="@+id/mtech"
+        android:title="M.Tech."
+        android:icon="@drawable/ic_icon"/>
 </menu>

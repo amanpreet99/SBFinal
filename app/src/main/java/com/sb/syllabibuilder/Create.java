@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -22,16 +20,13 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.sb.syllabibuilder.mtech.MainActivity;
 
 public class Create extends AppCompatActivity {
-    Spinner course,semester,tp;
-    TextInputLayout department,scheme;
+    Spinner department,semester,tp;
+    TextInputLayout scheme;
     Button nextc;
-    String st="";
     String zcourse,zsemester,ztp,zscheme,zdepartment;
-    DBHelper dbHelper;
-    SQLiteDatabase mydb;
-    Cursor cursor;
     public static final String pref="mypref";
     public static final String fcourse= "coursekey";
     public static final String fsemester= "semesterkey";
@@ -42,7 +37,7 @@ public class Create extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     //DROPDOWN VALUES
-    String courses[]= {"Select Course","B.Tech.","M.Tech."};
+    String[] dpmnt={"Select Department","Applied Science","Civil Engineering","Computer Science and Engineering","Electrical Engineering","Electronics and Communicaton Engineering","Information Technology","Mechanical Engineering","Production Engineering"};
     String semesterapplied[]={"Select Semester","1","2"};
     String sem[]={"Select Semester","3","4","5","6","7","8"};
     String thpt[]={"Theory/Practical?","Theory","Practical"};
@@ -52,52 +47,39 @@ public class Create extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-        sharedPreferences=getSharedPreferences(pref, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(pref, Context.MODE_PRIVATE);
         //BOTTOM NAVIGATION VIEW
-        BottomNavigationView bottomNavigationView= findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.create);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.btech);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.create:
+                switch (item.getItemId()) {
+                    case R.id.btech:
                         return true;
 
-                    case R.id.kuch:
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        overridePendingTransition(0,0);
+                    case R.id.mtech:
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
-
-                    case R.id.saved:
-                        startActivity(new Intent(getApplicationContext(),Saved.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
                 }
                 return false;
             }
         });
 
         //FIND VIEW BY ID
-        course= (Spinner) findViewById(R.id.ccourse);
-        department= (TextInputLayout)findViewById(R.id.cdepartment);
-        semester=(Spinner) findViewById(R.id.csemester);
-        scheme=( TextInputLayout)findViewById(R.id.cscheme);
-        tp=(Spinner) findViewById(R.id.ctp);
-        nextc=findViewById(R.id.cnext);
-
-        //TO BE CHANGEDl BY DATA FETCHING FROM DATABASE
-        st= getIntent().getStringExtra("value").trim();
-        department.getEditText().setText(st);
-
-        zdepartment= department.getEditText().getText().toString().trim();
+        department = (Spinner) findViewById(R.id.cdepartment);
+        semester = (Spinner) findViewById(R.id.csemester);
+        scheme = (TextInputLayout) findViewById(R.id.cscheme);
+        tp = (Spinner) findViewById(R.id.ctp);
+        nextc = findViewById(R.id.cnext);
 
         //ADAPTERS
-        ArrayAdapter<String> acourse = new ArrayAdapter<String>(Create.this, R.layout.support_simple_spinner_dropdown_item, courses){
+        ArrayAdapter<String> adpmt = new ArrayAdapter<String>(Create.this, R.layout.support_simple_spinner_dropdown_item, dpmnt) {
             @Override
             public boolean isEnabled(int position) {
-                if(position==0){
+                if (position == 0) {
                     return false;
                 }
                 return true;
@@ -105,36 +87,29 @@ public class Create extends AppCompatActivity {
 
             @Override
             public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view=super.getDropDownView(position,convertView,parent);
-                TextView textView=(TextView) view;
-                if(position==0){
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = (TextView) view;
+                if (position == 0) {
                     textView.setTextColor(Color.GRAY);
-                }
-                else{
+                } else {
                     textView.setTextColor(Color.BLACK);
                 }
                 return view;
             }
         };
-        course.setAdapter(acourse);
-        course.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        department.setAdapter(adpmt);
+        department.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
 
-                }
-                if(position==2){
-                    zcourse= parent.getItemAtPosition(position).toString().trim();
-
-                }
-                //String selectedscheme = parent.getItemAtPosition(position).toString();
-                if(position==1){
-                    zcourse= parent.getItemAtPosition(position).toString().trim();
-                    if(st.equals("Applied Science")){
-                        ArrayAdapter asem = new ArrayAdapter(Create.this, R.layout.spin, semesterapplied){
+                } else {
+                    zdepartment = parent.getItemAtPosition(position).toString().trim();
+                    if (position == 1) {
+                        ArrayAdapter asem = new ArrayAdapter(Create.this, R.layout.spin, semesterapplied) {
                             @Override
                             public boolean isEnabled(int position) {
-                                if(position==0){
+                                if (position == 0) {
                                     return false;
                                 }
                                 return true;
@@ -142,12 +117,11 @@ public class Create extends AppCompatActivity {
 
                             @Override
                             public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                                View view=super.getDropDownView(position,convertView,parent);
-                                TextView textView=(TextView) view;
-                                if(position==0){
+                                View view = super.getDropDownView(position, convertView, parent);
+                                TextView textView = (TextView) view;
+                                if (position == 0) {
                                     textView.setTextColor(Color.GRAY);
-                                }
-                                else{
+                                } else {
                                     textView.setTextColor(Color.BLACK);
                                 }
                                 return view;
@@ -157,89 +131,43 @@ public class Create extends AppCompatActivity {
                         semester.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
-                                zsemester= parent.getItemAtPosition(p).toString().trim();
-//                                String check=".{4,}";
-//                                if(zscheme.isEmpty()){
-//                                    scheme.setError("Enter field");
-//                                }
-//                                else if(!zscheme.matches(check)){
-//                                    scheme.setError("Enter field as YYYY");
-//                                }
-//                                else{
-                                    ArrayAdapter atp = new ArrayAdapter(Create.this, R.layout.spin, thpt){
-                                        @Override
-                                        public boolean isEnabled(int position) {
-                                            if(position==0){
-                                                return false;
-                                            }
-                                            return true;
-                                        }
+                                zsemester = parent.getItemAtPosition(p).toString().trim();
+                            }
 
-                                        @Override
-                                        public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                                            View view=super.getDropDownView(position,convertView,parent);
-                                            TextView textView=(TextView) view;
-                                            if(position==0){
-                                                textView.setTextColor(Color.GRAY);
-                                            }
-                                            else{
-                                                textView.setTextColor(Color.BLACK);
-                                            }
-                                            return view;
-                                        }
-                                    };
-                                    tp.setAdapter(atp);
-                                    tp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                                            ztp=parent.getItemAtPosition(pos).toString().trim();
-                                            if(pos==1 &&p!=0){
-                                                nextc.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        zscheme= scheme.getEditText().getText().toString().trim();
-                                                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                                                        editor.putString(fcourse,zcourse);
-                                                        editor.putString(fdepartment,zdepartment);
-                                                        editor.putString(fsemester,zsemester);
-                                                        editor.putString(fscheme,zscheme);
-                                                        editor.putString(ftp,ztp);
-                                                        editor.commit();
-                                                        Intent intent= new Intent(Create.this, Theory.class);
-                                                        startActivity(intent);
-                                                    }
-                                                });
-                                            }
-                                            else if(pos==2 &&p!=0){
-                                                nextc.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        zscheme= scheme.getEditText().getText().toString().trim();
-                                                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                                                        editor.putString(fcourse,zcourse);
-                                                        editor.putString(fdepartment,zdepartment);
-                                                        editor.putString(fsemester,zsemester);
-                                                        editor.putString(fscheme,zscheme);
-                                                        editor.putString(ftp,ztp);
-                                                        editor.commit();
-                                                        Intent intent= new Intent(Create.this,Lab.class);
-                                                        startActivity(intent);
-                                                    }
-                                                });
-                                            }
-                                            else{
-                                                nextc.setError("Fill all fields");
-                                                //Toast.makeText(getApplicationContext(),"Fill all fields",Toast.LENGTH_LONG).show();
-                                            }
-                                        }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
 
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> parent) {
-
-                                        }
-                                    });
+                            }
+                        });
+                    } else {
+                        asem = new ArrayAdapter(Create.this, R.layout.spin, sem) {
+                            @Override
+                            public boolean isEnabled(int position) {
+                                if (position == 0) {
+                                    return false;
                                 }
-                      //      }
+                                return true;
+                            }
+
+                            @Override
+                            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                                View view = super.getDropDownView(position, convertView, parent);
+                                TextView textView = (TextView) view;
+                                if (position == 0) {
+                                    textView.setTextColor(Color.GRAY);
+                                } else {
+                                    textView.setTextColor(Color.BLACK);
+                                }
+                                return view;
+                            }
+                        };
+                        semester.setAdapter(asem);
+                        semester.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
+                                zsemester = parent.getItemAtPosition(p).toString().trim();
+
+                            }
 
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {
@@ -247,133 +175,92 @@ public class Create extends AppCompatActivity {
                             }
                         });
                     }
-                    else{
-                     asem= new ArrayAdapter(Create.this, R.layout.spin, sem){
-                         @Override
-                         public boolean isEnabled(int position) {
-                             if(position==0){
-                                 return false;
-                             }
-                             return true;
-                         }
-
-                         @Override
-                         public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                             View view=super.getDropDownView(position,convertView,parent);
-                             TextView textView=(TextView) view;
-                             if(position==0){
-                                 textView.setTextColor(Color.GRAY);
-                             }
-                             else{
-                                 textView.setTextColor(Color.BLACK);
-                             }
-                             return view;
-                         }
-                     };
-                        semester.setAdapter(asem);
-                        semester.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
-                                zsemester= parent.getItemAtPosition(p).toString().trim();
-
-//                                String check=".{4,}";
-////                                if(m.isEmpty()){
-////                                    scheme.setError("Enter field");
-////                                }
-//                                if(!m.matches(check)){
-//                                    scheme.setError("Enter field as YYYY");
-//                                }
-//                                else{
-                                    ArrayAdapter atp = new ArrayAdapter(Create.this, R.layout.spin, thpt){
-                                        @Override
-                                        public boolean isEnabled(int position) {
-                                            if(position==0){
-                                                return false;
-                                            }
-                                            return true;
-                                        }
-
-                                        @Override
-                                        public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                                            View view=super.getDropDownView(position,convertView,parent);
-                                            TextView textView=(TextView) view;
-                                            if(position==0){
-                                                textView.setTextColor(Color.GRAY);
-                                            }
-                                            else{
-                                                textView.setTextColor(Color.BLACK);
-                                            }
-                                            return view;
-                                        }
-                                    };
-                                    tp.setAdapter(atp);
-                                    tp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                                            ztp=parent.getItemAtPosition(pos).toString().trim();
-                                            if(pos==1  &&p!=0){
-                                                nextc.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        zscheme= scheme.getEditText().getText().toString().trim();
-                                                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                                                        editor.putString(fcourse,zcourse);
-                                                        editor.putString(fdepartment,zdepartment);
-                                                        editor.putString(fsemester,zsemester);
-                                                        editor.putString(fscheme,zscheme);
-                                                        editor.putString(ftp,ztp);
-                                                        editor.commit();
-                                                        Intent intent= new Intent(Create.this,Theory.class);
-                                                        startActivity(intent);
-                                                    }
-                                                });
-                                            }
-                                            else if(pos==2  &&p!=0){
-                                                nextc.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        zscheme= scheme.getEditText().getText().toString().trim();
-                                                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                                                        editor.putString(fcourse,zcourse);
-                                                        editor.putString(fdepartment,zdepartment);
-                                                        editor.putString(fsemester,zsemester);
-                                                        editor.putString(fscheme,zscheme);
-                                                        editor.putString(ftp,ztp);
-                                                        editor.commit();
-                                                        Intent intent= new Intent(Create.this,Lab.class);
-                                                        startActivity(intent);
-                                                    }
-                                                });
-                                            }
-                                            else{
-                                                }
-                                        }
-
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> parent) {
-
-                                        }
-                                    });
-                                }
-//                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-
-                            }
-                        });
-                        }
                 }
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-
             }
         });
 
 
-    }
-}
+        ArrayAdapter<String> atp = new ArrayAdapter<String>(Create.this, R.layout.spin, thpt) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = (TextView) view;
+                if (position == 0) {
+                    textView.setTextColor(Color.GRAY);
+                } else {
+                    textView.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        tp.setAdapter(atp);
+        tp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                ztp = parent.getItemAtPosition(pos).toString().trim();
+                if (pos == 1) {
+                    nextc.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            zscheme = scheme.getEditText().getText().toString().trim();
+                            zcourse = "B.Tech.";
+                            if (zcourse != null & zdepartment != null & zscheme != null & zsemester != null & ztp != null) {
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(fcourse, zcourse);
+                                editor.putString(fdepartment, zdepartment);
+                                editor.putString(fsemester, zsemester);
+                                editor.putString(fscheme, zscheme);
+                                editor.putString(ftp, ztp);
+                                editor.commit();
+                                Intent intent = new Intent(Create.this, Theory.class);
+                                startActivity(intent);
+                            }
+
+                        }
+
+                    });
+                } else if (pos == 2) {
+                    nextc.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            zscheme = scheme.getEditText().getText().toString().trim();
+                            zcourse = "B.Tech.";
+                            if (zcourse != null & zdepartment != null & zscheme != null & zsemester != null & ztp != null) {
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(fcourse, zcourse);
+                                editor.putString(fdepartment, zdepartment);
+                                editor.putString(fsemester, zsemester);
+                                editor.putString(fscheme, zscheme);
+                                editor.putString(ftp, ztp);
+                                editor.commit();
+                                Intent intent = new Intent(Create.this, Lab.class);
+                                startActivity(intent);
+                            }
+
+                        }
+
+                    });
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }}

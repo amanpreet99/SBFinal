@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".Textbooks">
+    tools:context=".part_B">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,35 +17,31 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TEXTBOOKS"
+                android:text="MINOR PROJECT"
                 android:textSize="25dp"
                 android:textColor="@color/blue"
                 android:gravity="center"
                 android:textStyle="bold"/>
 
-            <LinearLayout
-                android:id="@+id/textbook_layout_lists"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/proname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:hint="Minor Project Description"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintTextColor="#EF1E0F"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeColor="#EF1E0F"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/button_addt"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Add"
-                android:backgroundTint="@color/white"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="@color/blue"
-                android:textAllCaps="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:drawableRight="@drawable/ic_add"
-                ></Button>
-
-            <Button
-                android:id="@+id/textnext"
+                android:id="@+id/pronext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

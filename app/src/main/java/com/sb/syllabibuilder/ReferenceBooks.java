@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.sb.syllabibuilder.mtech.MainActivity;
 
 import java.util.ArrayList;
 
@@ -32,22 +33,17 @@ public class ReferenceBooks extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_reference_books);
 
         BottomNavigationView bottomNavigationView= findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.create);
+        bottomNavigationView.setSelectedItemId(R.id.btech);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.create:
+                    case R.id.btech:
                         return true;
 
-                    case R.id.kuch:
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
-                    case R.id.saved:
-                        startActivity(new Intent(getApplicationContext(),Saved.class));
+                    case R.id.mtech:
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         overridePendingTransition(0,0);
                         return true;
 

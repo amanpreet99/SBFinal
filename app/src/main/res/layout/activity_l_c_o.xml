@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".Lab">
+    tools:context=".LCO">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,20 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="PRACTICAL"
-                android:textSize="25dp"
-                android:textColor="@color/blue"
-                android:gravity="center"
-                android:textStyle="bold"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/psubname"
+                android:id="@+id/co1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Subject Name"
+                android:hint="Course outcome 1"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:hintTextColor="@color/blue"
                 app:boxStrokeWidthFocused="2dp"
@@ -37,14 +29,17 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textCapWords"/>
+                    android:minLines="1"
+                    android:maxLines="10"
+                    android:maxHeight="2000dp"
+                    android:inputType="textMultiLine"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/psubcode"
+                android:id="@+id/co2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Subject Code"
+                android:hint="Course Outcome 2"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:hintTextColor="@color/blue"
                 app:boxStrokeWidthFocused="2dp"
@@ -54,67 +49,17 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="text"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/pprac"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/spinneroutline"
-                android:padding="1dp"
-                android:layout_marginTop="15dp"
-                android:spinnerMode="dropdown"
-                android:popupBackground="@drawable/spinneroutline2" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/pcredits"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Credits"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:hintTextColor="@color/blue"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeColor="#EF1E0F"
-                android:layout_marginTop="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="number"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <Spinner
-                android:id="@+id/pelective"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/spinneroutline"
-                android:padding="1dp"
-                android:layout_marginTop="15dp"
-                android:spinnerMode="dropdown"
-                android:popupBackground="@drawable/spinneroutline2" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/pnum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Percentage of numerical/Design problems"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:hintTextColor="@color/blue"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeColor="#EF1E0F"
-                android:layout_marginTop="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="number"/>
+                    android:minLines="1"
+                    android:maxLines="10"
+                    android:maxHeight="2000dp"
+                    android:inputType="textMultiLine"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ppre"
+                android:id="@+id/co3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Pre-requisites"
+                android:hint="Course Outcome 3"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:hintTextColor="@color/blue"
                 app:boxStrokeWidthFocused="2dp"
@@ -124,14 +69,17 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="text"/>
+                    android:minLines="1"
+                    android:maxLines="10"
+                    android:maxHeight="2000dp"
+                    android:inputType="textMultiLine"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/pspecial"
+                android:id="@+id/co4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Special Instruction related to resources requirement"
+                android:hint="Course Outcome 4"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:hintTextColor="@color/blue"
                 app:boxStrokeWidthFocused="2dp"
@@ -141,11 +89,55 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="text"/>
+                    android:minLines="1"
+                    android:maxLines="10"
+                    android:maxHeight="2000dp"
+                    android:inputType="textMultiLine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/co5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Course Outcome 5"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintTextColor="@color/blue"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeColor="#EF1E0F"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minLines="1"
+                    android:maxLines="10"
+                    android:maxHeight="2000dp"
+                    android:inputType="textMultiLine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/co6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Course Outcome 6"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintTextColor="@color/blue"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeColor="#EF1E0F"
+
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minLines="1"
+                    android:maxLines="10"
+                    android:maxHeight="2000dp"
+                    android:inputType="textMultiLine"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/pnext"
+                android:id="@+id/conext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

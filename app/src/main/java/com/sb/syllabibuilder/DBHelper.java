@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
-    public static final String DBNAME="users";
+    public static final String DBNAME="Teachers";
     public DBHelper(@Nullable Context context) {
         super(context, "users",null, 1);
     }
@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase Mydb) {
         //Mydb.execSQL("CREATE TABLE users(email TEXT primary key, password TEXT, department TEXT)");
-        Mydb.execSQL("CREATE TABLE users(email TEXT unique, password TEXT, department TEXT)");
+        Mydb.execSQL("CREATE TABLE users(email TEXT unique, password TEXT)");
 
     }
 
@@ -31,12 +31,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertData(String email, String password, String department){
+    public boolean insertData(String email, String password){
         SQLiteDatabase Mydb= this.getWritableDatabase();
         ContentValues contentValues= new ContentValues();
         contentValues.put("email",email);
         contentValues.put("password", password);
-        contentValues.put("department", department);
         long result= Mydb.insert("users",null,contentValues);
         if(result==-1) return false;
         else
